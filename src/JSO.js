@@ -347,7 +347,8 @@ class JSO extends EventEmitter {
     return new Promise((resolve, reject) => {
 
       let scopesRequire = this._getRequiredScopes(opts)
-			let token = this.store.getToken(this.providerID, scopesRequire)
+utils.log('Skipping attempt to retrieve token from store')
+			let token // = this.store.getToken(this.providerID, scopesRequire)
 
 			if (token) {
 				return resolve(token)
@@ -447,14 +448,14 @@ class JSO extends EventEmitter {
 			// We'd like to cache the hash for not loosing Application state.
 			// With the implciit grant flow, the hash will be replaced with the access
 			// token when we return after authorization.
-			if (window.location.hash) {
-				request.restoreHash = window.location.hash
-			}
+utils.log('Skipping window.location.hash')
+			// if (window.location.hash) {
+			// 	request.restoreHash = window.location.hash
+			// }
 			request.providerID = this.providerID
 			if (scopes) {
 				request.scopes = scopes
 			}
-
 
 			utils.log("Saving state [" + request.state + "]")
 			utils.log(JSON.parse(JSON.stringify(request)))
@@ -466,7 +467,8 @@ class JSO extends EventEmitter {
 
 			utils.log("Looking for loader", opts, loader)
 
-			this.store.saveState(request.state, request)
+utils.log('Skipping save state [' + request.state + ']')
+//			this.store.saveState(request.state, request)
 			return this.gotoAuthorizeURL(authurl, loader)
 				.then((response) => {
           if (response !== true) {
